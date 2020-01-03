@@ -11,6 +11,15 @@ crash.log
 # Fortinet licenses
 *.lic
 
+# Plan files
+*.tfplan
+
+# SSH Keys
+*.pub
+
+# Summary output
+*.out
+
 # Ignore any .tfvars files that are generated automatically for each Terraform run. Most
 # .tfvars files are managed as part of configuration and so should be included in
 # version control.
