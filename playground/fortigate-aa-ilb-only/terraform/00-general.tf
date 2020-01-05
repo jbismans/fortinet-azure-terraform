@@ -67,10 +67,14 @@ variable "subnet_hub" {
   description = ""
 
   default = {
-    "1" = "10.0.0.0/24"         # FortiGate subnet
-    "2" = "10.0.254.0/24"         # Jumpstation subnet
-    # "3" = "10.0.10.0/24"        # Protected a
-    # "4" = "10.0.11.0/24"        # Protected b
+    "fortigate"      = "10.0.2.0/24"
+    "jumpstation"    = "10.0.254.0/24"
+    # "dmz_internal"   = "10.0.10.0/24"
+    # "dmz_external"   = "10.0.11.0/24"
+    # "checkpoint_wan" = "10.0.0.0/24"
+    # "checkpoint_lan" = "10.0.1.0/24"
+    # "F5_external"    = "10.0.3.0/24"
+    # "F5_internal"    = "10.0.4.0/24"
   }
 }
 
@@ -79,10 +83,14 @@ variable "subnetmask_hub" {
   description = ""
 
   default = {
-    "1" = "24"        # FortiGate subnet
-    "2" = "24"        # Jumpstation subnet
-    # "3" = "24"        # Protected a
-    # "4" = "24"        # Protected b
+    "fortigate"      = "24"
+    "jumpstation"    = "24"
+    # "dmz_internal"   = "24"
+    # "dmz_external"   = "24"
+    # "checkpoint_wan" = "24"
+    # "checkpoint_lan" = "24"
+    # "F5_external"    = "24"
+    # "F5_internal"    = "24"
   }
 }
 
@@ -91,9 +99,9 @@ variable "fgt_hub_ipaddress" {
   description = ""
 
   default = {
-    "1" = "10.0.0.4"      # FortiGate A
-    "2" = "10.0.0.5"      # FortiGate B
-    "3" = "10.0.0.6"      # FortiGate C
+    "A" = "10.0.2.4"      # FortiGate A
+    "B" = "10.0.2.5"      # FortiGate B
+    "C" = "10.0.2.6"      # FortiGate C
   }
 }
 
@@ -102,15 +110,21 @@ variable "gateway_ipaddress_hub" {
   description = ""
 
   default = {
-    "1" = "10.0.0.1"      # FortiGate subnet
-    "2" = "10.0.254.1"    # Jumpstation subnet
+    "fortigate"      = "10.0.2.1"
+    "jumpstation"    = "10.0.254.1"
+    "dmz_internal"   = "10.0.10.1"
+    "dmz_external"   = "10.0.11.1"
+    "checkpoint_wan" = "10.0.0.1"
+    "checkpoint_lan" = "10.0.1.1"
+    "F5_external"    = "10.0.3.1"
+    "F5_internal"    = "10.0.4.1"
   }
 }
 
 variable "ilb_internal_ipaddress_hub" {
   description = ""
 
-  default = "10.0.0.254"
+  default = "10.0.2.254"
 }
 
 variable "fgt_vmsize_hub" {

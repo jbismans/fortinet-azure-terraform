@@ -53,7 +53,7 @@ resource "azurerm_lb" "ilb_hub" {
 
   frontend_ip_configuration {
     name                          = "${var.PREFIX}-HUB-ILB-IP"
-    subnet_id                     = "${azurerm_subnet.subnet1_hub.id}"
+    subnet_id                     = "${azurerm_subnet.fgt_hub.id}"
     private_ip_address            = "${var.ilb_internal_ipaddress_hub}"
     private_ip_address_allocation = "Static"
   }
@@ -108,9 +108,9 @@ resource "azurerm_network_interface" "fgt_hub_a_ifc" {
 
   ip_configuration {
     name                                    = "ipconfig1"
-    subnet_id                               = "${azurerm_subnet.subnet1_hub.id}"
+    subnet_id                               = "${azurerm_subnet.fgt_hub.id}"
     private_ip_address_allocation           = "static"
-    private_ip_address                      = "${var.fgt_hub_ipaddress["1"]}"
+    private_ip_address                      = "${var.fgt_hub_ipaddress["A"]}"
     public_ip_address_id                    = "${azurerm_public_ip.fgt_a_pip.id}"
   }
 }
@@ -181,9 +181,9 @@ data "template_file" "fgt_hub_a_custom_data" {
   vars = {
     fgt_hub_a_vm_name = "${var.PREFIX}-HUB-FGT-A"
     fgt_hub_a_license_file = "${var.FGT_LICENSE_FILE_HUB_A}"
-    fgt_hub_a_ipaddr = "${var.fgt_hub_ipaddress["1"]}"
-    fgt_hub_mask = "${var.subnetmask_hub["1"]}"
-    fgt_hub_gw =  "${var.gateway_ipaddress_hub["1"]}"
+    fgt_hub_a_ipaddr = "${var.fgt_hub_ipaddress["A"]}"
+    fgt_hub_mask = "${var.subnetmask_hub["fortigate"]}"
+    fgt_hub_gw =  "${var.gateway_ipaddress_hub["fortigate"]}"
   }
 }
 
@@ -209,9 +209,9 @@ resource "azurerm_network_interface" "fgt_hub_b_ifc" {
 
   ip_configuration {
     name                                    = "ipconfig1"
-    subnet_id                               = "${azurerm_subnet.subnet1_hub.id}"
+    subnet_id                               = "${azurerm_subnet.fgt_hub.id}"
     private_ip_address_allocation           = "static"
-    private_ip_address                      = "${var.fgt_hub_ipaddress["2"]}"
+    private_ip_address                      = "${var.fgt_hub_ipaddress["B"]}"
     public_ip_address_id                    = "${azurerm_public_ip.fgt_b_pip.id}"
   }
 }
@@ -282,10 +282,10 @@ data "template_file" "fgt_hub_b_custom_data" {
   vars = {
     fgt_hub_b_vm_name = "${var.PREFIX}-HUB-FGT-B"
     fgt_hub_b_license_file = "${var.FGT_LICENSE_FILE_HUB_B}"
-    fgt_hub_b_ipaddr = "${var.fgt_hub_ipaddress["2"]}"
-    fgt_hub_a_ipaddr = "${var.fgt_hub_ipaddress["1"]}"
-    fgt_hub_mask = "${var.subnetmask_hub["1"]}"
-    fgt_hub_gw =  "${var.gateway_ipaddress_hub["1"]}"
+    fgt_hub_b_ipaddr = "${var.fgt_hub_ipaddress["B"]}"
+    fgt_hub_a_ipaddr = "${var.fgt_hub_ipaddress["A"]}"
+    fgt_hub_mask = "${var.subnetmask_hub["fortigate"]}"
+    fgt_hub_gw =  "${var.gateway_ipaddress_hub["fortigate"]}"
   }
 }
 
@@ -311,9 +311,9 @@ resource "azurerm_network_interface" "fgt_hub_c_ifc" {
 
   ip_configuration {
     name                                    = "ipconfig1"
-    subnet_id                               = "${azurerm_subnet.subnet1_hub.id}"
+    subnet_id                               = "${azurerm_subnet.fgt_hub.id}"
     private_ip_address_allocation           = "static"
-    private_ip_address                      = "${var.fgt_hub_ipaddress["3"]}"
+    private_ip_address                      = "${var.fgt_hub_ipaddress["C"]}"
     public_ip_address_id                    = "${azurerm_public_ip.fgt_c_pip.id}"
   }
 }
@@ -384,9 +384,9 @@ data "template_file" "fgt_hub_c_custom_data" {
   vars = {
     fgt_hub_c_vm_name = "${var.PREFIX}-HUB-FGT-C"
     fgt_hub_c_license_file = "${var.FGT_LICENSE_FILE_HUB_C}"
-    fgt_hub_c_ipaddr = "${var.fgt_hub_ipaddress["3"]}"
-    fgt_hub_a_ipaddr = "${var.fgt_hub_ipaddress["1"]}"
-    fgt_hub_mask = "${var.subnetmask_hub["1"]}"
-    fgt_hub_gw =  "${var.gateway_ipaddress_hub["1"]}"
+    fgt_hub_c_ipaddr = "${var.fgt_hub_ipaddress["C"]}"
+    fgt_hub_a_ipaddr = "${var.fgt_hub_ipaddress["A"]}"
+    fgt_hub_mask = "${var.subnetmask_hub["fortigate"]}"
+    fgt_hub_gw =  "${var.gateway_ipaddress_hub["fortigate"]}"
   }
 }

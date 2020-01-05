@@ -59,7 +59,7 @@ resource "azurerm_network_interface" "jumpstation_ifc" {
 
   ip_configuration {
     name                          = "ipconfig1"
-    subnet_id                     = "${azurerm_subnet.subnet2_hub.id}"
+    subnet_id                     = "${azurerm_subnet.jumpstation_hub.id}"
     private_ip_address_allocation = "static"
     private_ip_address            = "${var.jumpstation_ipaddress["1"]}"
     public_ip_address_id          = "${azurerm_public_ip.jumpstation_pip.id}"
