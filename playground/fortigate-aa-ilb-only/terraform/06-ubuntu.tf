@@ -17,7 +17,7 @@ resource "azurerm_network_interface" "lnx_spoke1_ifc" {
 
   ip_configuration {
     name                          = "ipconfig1"
-    subnet_id                     = "${azurerm_subnet.subnet1_spoke1.id}"
+    subnet_id                     = "${azurerm_subnet.frontend_spoke1.id}"
     private_ip_address_allocation = "static"
     private_ip_address            = "${var.lnx_ipaddress_spoke1["1"]}"
   }
@@ -81,7 +81,7 @@ resource "azurerm_network_interface" "lnx_spoke2_ifc" {
 
   ip_configuration {
     name                          = "ipconfig1"
-    subnet_id                     = "${azurerm_subnet.subnet1_spoke2.id}"
+    subnet_id                     = "${azurerm_subnet.frontend_spoke2.id}"
     private_ip_address_allocation = "static"
     private_ip_address            = "${var.lnx_ipaddress_spoke2["1"]}"
   }

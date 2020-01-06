@@ -30,9 +30,11 @@ set -e
 # export TF_VAR_FGT_LICENSE_FILE_A="../licenses/FGVM04yyy.lic"
 #
 ##############################################################################################################
-export TF_VAR_FGT_LICENSE_FILE_HUB_A="../licenses/fgt-a.lic"
-export TF_VAR_FGT_LICENSE_FILE_HUB_B="../licenses/fgt-b.lic"
-export TF_VAR_FGT_LICENSE_FILE_HUB_C="../licenses/fgt-c.lic"
+export TF_VAR_FGT_LICENSE_FILE_HUB_INT_A="../licenses/fgt-int-a.lic"
+export TF_VAR_FGT_LICENSE_FILE_HUB_INT_B="../licenses/fgt-int-b.lic"
+export TF_VAR_FGT_LICENSE_FILE_HUB_INT_C="../licenses/fgt-int-c.lic"
+export TF_VAR_FGT_LICENSE_FILE_HUB_EXT_A="../licenses/fgt-ext-a.lic"
+export TF_VAR_FGT_LICENSE_FILE_HUB_EXT_B="../licenses/fgt-ext-b.lic"
 
 PLAN="terraform.tfplan"
 

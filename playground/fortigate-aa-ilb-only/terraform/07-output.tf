@@ -9,13 +9,10 @@ data "template_file" "summary" {
 
   vars = {
     location = "${var.LOCATION}"
-    fgt_hub_a_private_ip_address = "${azurerm_network_interface.fgt_hub_a_ifc.private_ip_address}"
-    fgt_hub_b_private_ip_address = "${azurerm_network_interface.fgt_hub_b_ifc.private_ip_address}"
-    fgt_hub_c_private_ip_address = "${azurerm_network_interface.fgt_hub_c_ifc.private_ip_address}"
-    jumpstation_private_ip_address = "${azurerm_network_interface.jumpstation_ifc.private_ip_address}"
-    jumpstation_public_ip_address = "${data.azurerm_public_ip.jumpstation_pip.ip_address}"
-    lnx_spoke1_private_ip_address = "${azurerm_network_interface.lnx_spoke1_ifc.private_ip_address}"
-    lnx_spoke2_private_ip_address = "${azurerm_network_interface.lnx_spoke2_ifc.private_ip_address}"
+    bastion_public_ip_address = "${data.azurerm_public_ip.bastion_pip.ip_address}"
+    fgt_ext_a_mgmt_ip_address = "${data.azurerm_public_ip.fgt_ext_hub_a_mgmt_pip.ip_address}"
+    fgt_ext_b_mgmt_ip_address = "${data.azurerm_public_ip.fgt_ext_hub_b_mgmt_pip.ip_address}"
+    fgt_ext_plb_ip_address    = "${data.azurerm_public_ip.plb_ext_hub_pip.ip_address}"
   }
 }
 

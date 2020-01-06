@@ -1,9 +1,6 @@
-# Fortigate internal loadbalanced Active/Active in [${location}]
+# Fortigates in [${location}]
 
-fgt_hub_a_private_ip_address = "${fgt_hub_a_private_ip_address}"
-fgt_hub_b_private_ip_address = "${fgt_hub_b_private_ip_address}"
-fgt_hub_c_private_ip_address = "${fgt_hub_c_private_ip_address}"
-jumpstation_private_ip_address = "${jumpstation_private_ip_address}"
-jumpstation_public_ip_address = "${jumpstation_public_ip_address}"
-lnx_spoke1_private_ip_address = "${lnx_spoke1_private_ip_address}"
-lnx_spoke2_private_ip_address = "${lnx_spoke2_private_ip_address}"
+bastion_public_ip_address = "${bastion_public_ip_address}"
+fgt_ext_a_mgmt_ip_address = "${fgt_ext_a_mgmt_ip_address}"
+fgt_ext_b_mgmt_ip_address = "${fgt_ext_b_mgmt_ip_address}"
+fgt_ext_plb_ip_address    = "${fgt_ext_plb_ip_address}"
