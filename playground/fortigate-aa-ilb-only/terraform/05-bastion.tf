@@ -8,7 +8,7 @@
 # bastion
 ##############################################################################################################
 resource "azurerm_public_ip" "bastion_pip" {
-  name                         = "${var.PREFIX}-bastion-PIP"
+  name                         = "${var.PREFIX}-BASTION-PIP"
   location                     = "${var.LOCATION}"
   resource_group_name          = "${azurerm_resource_group.resourcegroup.name}"
   allocation_method            = "Static"
