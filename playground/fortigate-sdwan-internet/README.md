@@ -1,4 +1,4 @@
-# fortiauthenticator-ha
+# fortigate-sdwan-internet
 
 This template was created to create an SD-WAN testing lab in Azure
 
