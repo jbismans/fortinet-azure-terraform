@@ -1,4 +1,4 @@
-# fortigate-aa-ilb
+# fortigate-aa-ilb-only
 
 This template was created for a customer.
 This deploys:
