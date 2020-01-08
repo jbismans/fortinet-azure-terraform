@@ -1,4 +1,4 @@
-# fortigate-demo-ap-lb
+# fortigate-demo-ap-sdn
 
 I use this template to maintain my Fortigate Active/Passive with Fabric connector demo environment.
 
