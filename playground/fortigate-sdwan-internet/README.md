@@ -11,5 +11,6 @@ This deploys:
     - Two branches
     - Single FortiGate with two WAN interfaces
     - Ubuntu VM for testing purposes
+    - NOTE: ADVPN cannot be tested due to both branches being behind NAT
 
 - A FortiManager
