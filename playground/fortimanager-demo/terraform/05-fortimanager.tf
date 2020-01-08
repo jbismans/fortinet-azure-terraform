@@ -48,7 +48,7 @@ resource "azurerm_network_security_rule" "fmg_nsg_allowallin" {
 }
 
 resource "azurerm_storage_account" "bootdiag_storage" {
-  name                     = "jbidemofmgsa"
+  name                     = "${lower(var.BOOTDIAG_STORAGE)}"
   resource_group_name      = "${azurerm_resource_group.resourcegroup.name}"
   location                 = "${var.LOCATION}"
   account_tier             = "Standard"

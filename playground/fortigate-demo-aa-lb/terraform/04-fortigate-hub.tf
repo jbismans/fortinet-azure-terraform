@@ -162,7 +162,7 @@ resource "azurerm_lb_rule" "ilb_haports_rule" {
 }
 
 resource "azurerm_storage_account" "bootdiag_storage" {
-  name                     = "${var.BOOTDIAG_STORAGE}"
+  name                     = "${lower(var.BOOTDIAG_STORAGE)}"
   resource_group_name      = "${azurerm_resource_group.resourcegroup.name}"
   location                 = "${var.LOCATION}"
   account_tier             = "Standard"
