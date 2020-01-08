@@ -1,4 +1,4 @@
-# fortimanager-demo
+# fortiweb-demo
 
 I use this template to maintain my FortiWeb demo environment.
 
