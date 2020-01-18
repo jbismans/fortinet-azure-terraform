@@ -68,6 +68,7 @@ resource "azurerm_route_table" "protected_a_hub_route" {
   name                = "${var.PREFIX}-HUB-PROTECTED-A-RT"
   location            = "${var.LOCATION}"
   resource_group_name = "${azurerm_resource_group.resourcegroup.name}"
+  disable_bgp_route_propagation = true
 
   route {
     name                   = "Vnet-Hub"
@@ -113,6 +114,7 @@ resource "azurerm_route_table" "protected_b_hub_route" {
   name                = "${var.PREFIX}-HUB-PROTECTED-B-RT"
   location            = "${var.LOCATION}"
   resource_group_name = "${azurerm_resource_group.resourcegroup.name}"
+  disable_bgp_route_propagation = true
 
   route {
     name                   = "Vnet-Hub"

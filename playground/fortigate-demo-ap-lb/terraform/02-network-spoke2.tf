@@ -30,7 +30,8 @@ resource "azurerm_route_table" "protected_a_spoke2_route" {
   name                = "${var.PREFIX}-SPOKE2-PROTECTED-A-RT"
   location            = "${var.LOCATION}"
   resource_group_name = "${azurerm_resource_group.resourcegroup.name}"
-
+  disable_bgp_route_propagation = true
+  
   route {
     name                   = "Vnet-Hub"
     address_prefix         = "${var.vnet_hub}"
