@@ -148,6 +148,8 @@ data "template_file" "fgt_custom_data" {
     fgt_port2_ipaddr = "${var.fgt_ipaddress["2"]}"
     fgt_port2_mask = "${var.subnetmask["2"]}"
     fgt_port2_gw =  "${var.gateway_ipaddress["2"]}"
+    subnet_mgmt = "${var.subnet["3"]}"
+    fts_mgmt_ipaddr = "${var.fts_ipaddress["3"]}"
   }
 }
 
