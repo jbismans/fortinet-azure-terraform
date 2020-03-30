@@ -16,9 +16,6 @@ resource "azurerm_subnet" "port1_subnet" {
   resource_group_name  = azurerm_resource_group.resourcegroup.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefix       = var.subnet["1"]
-  lifecycle {
-    ignore_changes = [route_table_id]
-  }
 }
 
 resource "azurerm_subnet" "port2_subnet" {
@@ -26,9 +23,6 @@ resource "azurerm_subnet" "port2_subnet" {
   resource_group_name  = azurerm_resource_group.resourcegroup.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefix       = var.subnet["2"]
-  lifecycle {
-    ignore_changes = [route_table_id]
-  }
 }
 
 resource "azurerm_subnet" "mgmt_subnet" {
@@ -41,6 +35,10 @@ resource "azurerm_subnet" "mgmt_subnet" {
 resource "azurerm_subnet_route_table_association" "port1_subnet_rt" {
   subnet_id      = azurerm_subnet.port1_subnet.id
   route_table_id = azurerm_route_table.port1_subnet_rt.id
+
+  lifecycle {
+    ignore_changes = [route_table_id]
+  }
 }
 
 resource "azurerm_route_table" "port1_subnet_rt" {
@@ -59,6 +57,10 @@ resource "azurerm_route_table" "port1_subnet_rt" {
 resource "azurerm_subnet_route_table_association" "port2_subnet_rt" {
   subnet_id      = azurerm_subnet.port2_subnet.id
   route_table_id = azurerm_route_table.port2_subnet_rt.id
+
+  lifecycle {
+    ignore_changes = [route_table_id]
+  }
 }
 
 resource "azurerm_route_table" "port2_subnet_rt" {
