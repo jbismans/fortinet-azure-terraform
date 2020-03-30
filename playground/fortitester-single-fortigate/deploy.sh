@@ -31,7 +31,7 @@ set -e
 # export TF_VAR_FGT_LICENSE_FILE_A="../licenses/FGVM04yyy.lic"
 #
 ##############################################################################################################
-export TF_VAR_FGT_LICENSE_FILE="../licenses/fgt.lic"
+#export TF_VAR_FGT_LICENSE_FILE="../licenses/fgt.lic"
 
 PLAN="terraform.tfplan"
 
