@@ -44,9 +44,6 @@ resource "azurerm_subnet" "subnet5_hub" {
   resource_group_name  = azurerm_resource_group.resourcegroup.name
   virtual_network_name = azurerm_virtual_network.vnet_hub.name
   address_prefix       = var.subnet_hub["5"]
-  lifecycle {
-    ignore_changes = [route_table_id]
-  }
 }
 
 resource "azurerm_subnet" "subnet6_hub" {
@@ -54,14 +51,14 @@ resource "azurerm_subnet" "subnet6_hub" {
   resource_group_name  = azurerm_resource_group.resourcegroup.name
   virtual_network_name = azurerm_virtual_network.vnet_hub.name
   address_prefix       = var.subnet_hub["6"]
-  lifecycle {
-    ignore_changes = [route_table_id]
-  }
 }
 
 resource "azurerm_subnet_route_table_association" "subnet5_hub_rt" {
   subnet_id      = azurerm_subnet.subnet5_hub.id
   route_table_id = azurerm_route_table.protected_a_hub_route.id
+  lifecycle {
+    ignore_changes = [route_table_id]
+  }
 }
 
 resource "azurerm_route_table" "protected_a_hub_route" {
@@ -108,6 +105,9 @@ resource "azurerm_route_table" "protected_a_hub_route" {
 resource "azurerm_subnet_route_table_association" "subnet6_hub_rt" {
   subnet_id      = azurerm_subnet.subnet6_hub.id
   route_table_id = azurerm_route_table.protected_b_hub_route.id
+ lifecycle {
+    ignore_changes = [route_table_id]
+  }
 }
 
 resource "azurerm_route_table" "protected_b_hub_route" {

@@ -16,14 +16,14 @@ resource "azurerm_subnet" "subnet1_spoke2" {
   resource_group_name  = azurerm_resource_group.resourcegroup.name
   virtual_network_name = azurerm_virtual_network.vnet_spoke2.name
   address_prefix       = var.subnet_spoke2["1"]
-  lifecycle {
-    ignore_changes = [route_table_id]
-  }
 }
 
 resource "azurerm_subnet_route_table_association" "subnet1_spoke2_rt" {
   subnet_id      = azurerm_subnet.subnet1_spoke2.id
   route_table_id = azurerm_route_table.protected_a_spoke2_route.id
+  lifecycle {
+    ignore_changes = [route_table_id]
+  }
 }
 
 resource "azurerm_route_table" "protected_a_spoke2_route" {
