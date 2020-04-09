@@ -11,6 +11,9 @@ crash.log
 # Fortinet licenses
 *.lic
 
+# OS X files
+.DS_Store
+
 # Plan files
 *.tfplan
 
