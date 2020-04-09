@@ -5,24 +5,24 @@
 ##############################################################################################################
 
 resource "azurerm_public_ip" "fgt_pip" {
-  name                         = "${var.PREFIX}-FGT-PIP"
-  location                     = "${var.LOCATION}"
-  resource_group_name          = "${azurerm_resource_group.resourcegroup.name}"
-  allocation_method            = "Static"
-  sku                          = "Standard"
-  domain_name_label            = "${format("%s-%s", lower(var.PREFIX), "fgt-pip")}"
+  name                = "${var.PREFIX}-FGT-PIP"
+  location            = var.LOCATION
+  resource_group_name = azurerm_resource_group.resourcegroup.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+  domain_name_label   = format("%s-%s", lower(var.PREFIX), "fgt-pip")
 }
 
 resource "azurerm_network_security_group" "fgt_nsg" {
   name                = "${var.PREFIX}-FGT-NSG"
-  location            = "${var.LOCATION}"
-  resource_group_name = "${azurerm_resource_group.resourcegroup.name}"
+  location            = var.LOCATION
+  resource_group_name = azurerm_resource_group.resourcegroup.name
 }
 
 resource "azurerm_network_security_rule" "fgt_nsg_allowallout" {
   name                        = "AllowAllOutbound"
-  resource_group_name         = "${azurerm_resource_group.resourcegroup.name}"
-  network_security_group_name = "${azurerm_network_security_group.fgt_nsg.name}"
+  resource_group_name         = azurerm_resource_group.resourcegroup.name
+  network_security_group_name = azurerm_network_security_group.fgt_nsg.name
   priority                    = 100
   direction                   = "Outbound"
   access                      = "Allow"
@@ -35,8 +35,8 @@ resource "azurerm_network_security_rule" "fgt_nsg_allowallout" {
 
 resource "azurerm_network_security_rule" "fgt_nsg_allowallin" {
   name                        = "AllowAllInbound"
-  resource_group_name         = "${azurerm_resource_group.resourcegroup.name}"
-  network_security_group_name = "${azurerm_network_security_group.fgt_nsg.name}"
+  resource_group_name         = azurerm_resource_group.resourcegroup.name
+  network_security_group_name = azurerm_network_security_group.fgt_nsg.name
   priority                    = 100
   direction                   = "Inbound"
   access                      = "Allow"
@@ -48,47 +48,56 @@ resource "azurerm_network_security_rule" "fgt_nsg_allowallin" {
 }
 
 resource "azurerm_network_interface" "fgt_ifc_port1" {
-  name                      = "${var.PREFIX}-FGT-IFC-PORT1"
-  location                  = "${azurerm_resource_group.resourcegroup.location}"
-  resource_group_name       = "${azurerm_resource_group.resourcegroup.name}"
-  enable_ip_forwarding      = true
-  enable_accelerated_networking   = true
-  network_security_group_id = "${azurerm_network_security_group.fgt_nsg.id}"
+  name                          = "${var.PREFIX}-FGT-IFC-PORT1"
+  location                      = azurerm_resource_group.resourcegroup.location
+  resource_group_name           = azurerm_resource_group.resourcegroup.name
+  enable_ip_forwarding          = true
+  enable_accelerated_networking = true
+
   ip_configuration {
-    name                                    = "ipconfig1"
-    subnet_id                               = "${azurerm_subnet.port1_subnet.id}"
-    private_ip_address_allocation           = "static"
-    private_ip_address                      = "${var.fgt_ipaddress["1"]}"
-    public_ip_address_id                    = "${azurerm_public_ip.fgt_pip.id}"
+    name                          = "ipconfig1"
+    subnet_id                     = azurerm_subnet.port1_subnet.id
+    private_ip_address_allocation = "static"
+    private_ip_address            = var.fgt_ipaddress["1"]
+    public_ip_address_id          = azurerm_public_ip.fgt_pip.id
   }
+}
+
+resource "azurerm_network_interface_security_group_association" "fgt_ifc_port1_nsg" {
+  network_interface_id      = azurerm_network_interface.fgt_ifc_port1.id
+  network_security_group_id = azurerm_network_security_group.fgt_nsg.id
 }
 
 resource "azurerm_network_interface" "fgt_ifc_port2" {
-  name                      = "${var.PREFIX}-FGT-IFC-PORT2"
-  location                  = "${azurerm_resource_group.resourcegroup.location}"
-  resource_group_name       = "${azurerm_resource_group.resourcegroup.name}"
-  enable_ip_forwarding      = true
-  enable_accelerated_networking   = true
-  network_security_group_id = "${azurerm_network_security_group.fgt_nsg.id}"
+  name                          = "${var.PREFIX}-FGT-IFC-PORT2"
+  location                      = azurerm_resource_group.resourcegroup.location
+  resource_group_name           = azurerm_resource_group.resourcegroup.name
+  enable_ip_forwarding          = true
+  enable_accelerated_networking = true
 
   ip_configuration {
-    name                                    = "ipconfig1"
-    subnet_id                               = "${azurerm_subnet.port2_subnet.id}"
-    private_ip_address_allocation           = "static"
-    private_ip_address                      = "${var.fgt_ipaddress["2"]}"
+    name                          = "ipconfig1"
+    subnet_id                     = azurerm_subnet.port2_subnet.id
+    private_ip_address_allocation = "static"
+    private_ip_address            = var.fgt_ipaddress["2"]
   }
 }
 
+resource "azurerm_network_interface_security_group_association" "fgt_ifc_port2_nsg" {
+  network_interface_id      = azurerm_network_interface.fgt_ifc_port2.id
+  network_security_group_id = azurerm_network_security_group.fgt_nsg.id
+}
+
 resource "azurerm_virtual_machine" "fgt_vm" {
-  name                  = "${var.PREFIX}-FGT-VM"
-  location              = "${azurerm_resource_group.resourcegroup.location}"
-  resource_group_name   = "${azurerm_resource_group.resourcegroup.name}"
-  network_interface_ids = ["${azurerm_network_interface.fgt_ifc_port1.id}", "${azurerm_network_interface.fgt_ifc_port2.id}"]
-  primary_network_interface_id = "${azurerm_network_interface.fgt_ifc_port1.id}"
-  vm_size               = "${var.fgt_vmsize}"
+  name                         = "${var.PREFIX}-FGT-VM"
+  location                     = azurerm_resource_group.resourcegroup.location
+  resource_group_name          = azurerm_resource_group.resourcegroup.name
+  network_interface_ids        = [azurerm_network_interface.fgt_ifc_port1.id, azurerm_network_interface.fgt_ifc_port2.id]
+  primary_network_interface_id = azurerm_network_interface.fgt_ifc_port1.id
+  vm_size                      = var.fgt_vmsize
 
   identity {
-    type      = "SystemAssigned"
+    type = "SystemAssigned"
   }
 
   storage_image_reference {
@@ -121,9 +130,9 @@ resource "azurerm_virtual_machine" "fgt_vm" {
 
   os_profile {
     computer_name  = "${var.PREFIX}-FGT-VM"
-    admin_username = "${var.USERNAME}"
-    admin_password = "${var.PASSWORD}"
-    custom_data    = "${data.template_file.fgt_custom_data.rendered}"
+    admin_username = var.USERNAME
+    admin_password = var.PASSWORD
+    custom_data    = data.template_file.fgt_custom_data.rendered
   }
 
   os_profile_linux_config {
@@ -136,24 +145,25 @@ resource "azurerm_virtual_machine" "fgt_vm" {
 }
 
 data "template_file" "fgt_custom_data" {
-  template = "${file("${path.module}/customdata-fgt.tpl")}"
+  template = file("${path.module}/customdata-fgt.tpl")
 
   vars = {
-    fgt_vm_name = "${var.PREFIX}-FGT"
-    fgt_license_file = "${var.FGT_LICENSE_FILE}"
-    fgt_username = "${var.USERNAME}"
-    fgt_port1_ipaddr = "${var.fgt_ipaddress["1"]}"
-    fgt_port1_mask = "${var.subnetmask["1"]}"
-    fgt_port1_gw =  "${var.gateway_ipaddress["1"]}"
-    fgt_port2_ipaddr = "${var.fgt_ipaddress["2"]}"
-    fgt_port2_mask = "${var.subnetmask["2"]}"
-    fgt_port2_gw =  "${var.gateway_ipaddress["2"]}"
-    subnet_mgmt = "${var.subnet["3"]}"
-    fts_mgmt_ipaddr = "${var.fts_ipaddress["3"]}"
+    fgt_vm_name      = "${var.PREFIX}-FGT"
+    fgt_license_file = var.FGT_LICENSE_FILE
+    fgt_username     = var.USERNAME
+    fgt_port1_ipaddr = var.fgt_ipaddress["1"]
+    fgt_port1_mask   = var.subnetmask["1"]
+    fgt_port1_gw     = var.gateway_ipaddress["1"]
+    fgt_port2_ipaddr = var.fgt_ipaddress["2"]
+    fgt_port2_mask   = var.subnetmask["2"]
+    fgt_port2_gw     = var.gateway_ipaddress["2"]
+    subnet_mgmt      = var.subnet["3"]
+    fts_mgmt_ipaddr  = var.fts_ipaddress["3"]
   }
 }
 
 data "azurerm_public_ip" "fgt_pip" {
-  name                = "${azurerm_public_ip.fgt_pip.name}"
-  resource_group_name = "${azurerm_resource_group.resourcegroup.name}"
+  name                = azurerm_public_ip.fgt_pip.name
+  resource_group_name = azurerm_resource_group.resourcegroup.name
 }
+
