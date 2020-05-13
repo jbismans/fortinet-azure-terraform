@@ -9,35 +9,35 @@
 ##############################################################################################################
 
 resource "azurerm_public_ip" "lnx_hub_pip" {
-  name                         = "${var.PREFIX}-HUB-LNX-PIP"
-  location                     = "${var.LOCATION}"
-  resource_group_name          = "${azurerm_resource_group.resourcegroup.name}"
-  allocation_method            = "Static"
-  domain_name_label            = "${format("%s-%s", lower(var.PREFIX), "hub-lnx-pip")}"
+  name                = "${var.PREFIX}-HUB-LNX-PIP"
+  location            = var.LOCATION
+  resource_group_name = azurerm_resource_group.resourcegroup.name
+  allocation_method   = "Static"
+  domain_name_label   = format("%s-%s", lower(var.PREFIX), "hub-lnx-pip")
 }
 
 resource "azurerm_network_interface" "lnx_hub_ifc" {
-  name                            = "${var.PREFIX}-HUB-LNX-IFC"
-  location                        = "${azurerm_resource_group.resourcegroup.location}"
-  resource_group_name             = "${azurerm_resource_group.resourcegroup.name}"
-  enable_ip_forwarding            = false
-  enable_accelerated_networking   = true
+  name                          = "${var.PREFIX}-HUB-LNX-IFC"
+  location                      = azurerm_resource_group.resourcegroup.location
+  resource_group_name           = azurerm_resource_group.resourcegroup.name
+  enable_ip_forwarding          = false
+  enable_accelerated_networking = true
 
   ip_configuration {
     name                          = "ipconfig1"
-    subnet_id                     = "${azurerm_subnet.subnet5_hub.id}"
+    subnet_id                     = azurerm_subnet.subnet5_hub.id
     private_ip_address_allocation = "static"
-    private_ip_address            = "${var.lnx_ipaddress["1"]}"
-    public_ip_address_id          = "${azurerm_public_ip.lnx_hub_pip.id}"
+    private_ip_address            = var.lnx_ipaddress["1"]
+    public_ip_address_id          = azurerm_public_ip.lnx_hub_pip.id
   }
 }
 
 resource "azurerm_virtual_machine" "lnx_hub_vm" {
   name                  = "${var.PREFIX}-HUB-LNX-VM"
-  location              = "${azurerm_resource_group.resourcegroup.location}"
-  resource_group_name   = "${azurerm_resource_group.resourcegroup.name}"
-  network_interface_ids = ["${azurerm_network_interface.lnx_hub_ifc.id}"]
-  vm_size               = "${var.lnx_vmsize}"
+  location              = azurerm_resource_group.resourcegroup.location
+  resource_group_name   = azurerm_resource_group.resourcegroup.name
+  network_interface_ids = [azurerm_network_interface.lnx_hub_ifc.id]
+  vm_size               = var.lnx_vmsize
 
   storage_image_reference {
     publisher = "Canonical"
@@ -55,9 +55,9 @@ resource "azurerm_virtual_machine" "lnx_hub_vm" {
 
   os_profile {
     computer_name  = "${var.PREFIX}-HUB-LNX-VM"
-    admin_username = "${var.USERNAME}"
-    admin_password = "${var.PASSWORD}"
-    custom_data    = "${data.template_file.lnx_hub_custom_data.rendered}"
+    admin_username = var.USERNAME
+    admin_password = var.PASSWORD
+    custom_data    = data.template_file.lnx_hub_custom_data.rendered
   }
 
   os_profile_linux_config {
@@ -70,15 +70,14 @@ resource "azurerm_virtual_machine" "lnx_hub_vm" {
 }
 
 data "template_file" "lnx_hub_custom_data" {
-  template = "${file("${path.module}/customdata-lnx-hub.tpl")}"
+  template = file("${path.module}/customdata-lnx-hub.tpl")
 
-  vars = {
-  }
+  vars = {}
 }
 
 data "azurerm_public_ip" "lnx_hub_pip" {
-  name                = "${azurerm_public_ip.lnx_hub_pip.name}"
-  resource_group_name = "${azurerm_resource_group.resourcegroup.name}"
+  name                = azurerm_public_ip.lnx_hub_pip.name
+  resource_group_name = azurerm_resource_group.resourcegroup.name
 }
 
 #output "lnx_hub_public_ip_address" {
@@ -89,42 +88,40 @@ data "azurerm_public_ip" "lnx_hub_pip" {
 #  value = "${azurerm_network_interface.lnx_hub_ifc.private_ip_address}"
 #}
 
-
-
 ##############################################################################################################
 # Ubuntu BRANCH 1
 ##############################################################################################################
 
 resource "azurerm_public_ip" "lnx_branch1_pip" {
-  name                         = "${var.PREFIX}-BRANCH1-LNX-PIP"
-  location                     = "${var.LOCATION}"
-  resource_group_name          = "${azurerm_resource_group.resourcegroup.name}"
-  allocation_method            = "Static"
-  domain_name_label            = "${format("%s-%s", lower(var.PREFIX), "branch1-lnx-pip")}"
+  name                = "${var.PREFIX}-BRANCH1-LNX-PIP"
+  location            = var.LOCATION
+  resource_group_name = azurerm_resource_group.resourcegroup.name
+  allocation_method   = "Static"
+  domain_name_label   = format("%s-%s", lower(var.PREFIX), "branch1-lnx-pip")
 }
 
 resource "azurerm_network_interface" "lnx_branch1_ifc" {
-  name                            = "${var.PREFIX}-BRANCH1-LNX-IFC"
-  location                        = "${azurerm_resource_group.resourcegroup.location}"
-  resource_group_name             = "${azurerm_resource_group.resourcegroup.name}"
-  enable_ip_forwarding            = false
-  enable_accelerated_networking   = true
+  name                          = "${var.PREFIX}-BRANCH1-LNX-IFC"
+  location                      = azurerm_resource_group.resourcegroup.location
+  resource_group_name           = azurerm_resource_group.resourcegroup.name
+  enable_ip_forwarding          = false
+  enable_accelerated_networking = true
 
   ip_configuration {
     name                          = "ipconfig1"
-    subnet_id                     = "${azurerm_subnet.subnet4_branch1.id}"
+    subnet_id                     = azurerm_subnet.subnet4_branch1.id
     private_ip_address_allocation = "static"
-    private_ip_address            = "${var.lnx_ipaddress["2"]}"
-    public_ip_address_id          = "${azurerm_public_ip.lnx_branch1_pip.id}"
+    private_ip_address            = var.lnx_ipaddress["2"]
+    public_ip_address_id          = azurerm_public_ip.lnx_branch1_pip.id
   }
 }
 
 resource "azurerm_virtual_machine" "lnx_branch1_vm" {
   name                  = "${var.PREFIX}-BRANCH1-LNX-VM"
-  location              = "${azurerm_resource_group.resourcegroup.location}"
-  resource_group_name   = "${azurerm_resource_group.resourcegroup.name}"
-  network_interface_ids = ["${azurerm_network_interface.lnx_branch1_ifc.id}"]
-  vm_size               = "${var.lnx_vmsize}"
+  location              = azurerm_resource_group.resourcegroup.location
+  resource_group_name   = azurerm_resource_group.resourcegroup.name
+  network_interface_ids = [azurerm_network_interface.lnx_branch1_ifc.id]
+  vm_size               = var.lnx_vmsize
 
   storage_image_reference {
     publisher = "Canonical"
@@ -142,9 +139,9 @@ resource "azurerm_virtual_machine" "lnx_branch1_vm" {
 
   os_profile {
     computer_name  = "${var.PREFIX}-BRANCH1-LNX-VM"
-    admin_username = "${var.USERNAME}"
-    admin_password = "${var.PASSWORD}"
-    custom_data    = "${data.template_file.lnx_branch1_custom_data.rendered}"
+    admin_username = var.USERNAME
+    admin_password = var.PASSWORD
+    custom_data    = data.template_file.lnx_branch1_custom_data.rendered
   }
 
   os_profile_linux_config {
@@ -157,10 +154,9 @@ resource "azurerm_virtual_machine" "lnx_branch1_vm" {
 }
 
 data "template_file" "lnx_branch1_custom_data" {
-  template = "${file("${path.module}/customdata-lnx-branch1.tpl")}"
+  template = file("${path.module}/customdata-lnx-branch1.tpl")
 
-  vars = {
-  }
+  vars = {}
 }
 
 ##############################################################################################################
@@ -168,35 +164,35 @@ data "template_file" "lnx_branch1_custom_data" {
 ##############################################################################################################
 
 resource "azurerm_public_ip" "lnx_branch2_pip" {
-  name                         = "${var.PREFIX}-BRANCH2-LNX-PIP"
-  location                     = "${var.LOCATION}"
-  resource_group_name          = "${azurerm_resource_group.resourcegroup.name}"
-  allocation_method            = "Static"
-  domain_name_label            = "${format("%s-%s", lower(var.PREFIX), "branch2-lnx-pip")}"
+  name                = "${var.PREFIX}-BRANCH2-LNX-PIP"
+  location            = var.LOCATION
+  resource_group_name = azurerm_resource_group.resourcegroup.name
+  allocation_method   = "Static"
+  domain_name_label   = format("%s-%s", lower(var.PREFIX), "branch2-lnx-pip")
 }
 
 resource "azurerm_network_interface" "lnx_branch2_ifc" {
-  name                            = "${var.PREFIX}-BRANCH2-LNX-IFC"
-  location                        = "${azurerm_resource_group.resourcegroup.location}"
-  resource_group_name             = "${azurerm_resource_group.resourcegroup.name}"
-  enable_ip_forwarding            = false
-  enable_accelerated_networking   = true
+  name                          = "${var.PREFIX}-BRANCH2-LNX-IFC"
+  location                      = azurerm_resource_group.resourcegroup.location
+  resource_group_name           = azurerm_resource_group.resourcegroup.name
+  enable_ip_forwarding          = false
+  enable_accelerated_networking = true
 
   ip_configuration {
     name                          = "ipconfig1"
-    subnet_id                     = "${azurerm_subnet.subnet4_branch2.id}"
+    subnet_id                     = azurerm_subnet.subnet4_branch2.id
     private_ip_address_allocation = "static"
-    private_ip_address            = "${var.lnx_ipaddress["3"]}"
-    public_ip_address_id          = "${azurerm_public_ip.lnx_branch2_pip.id}"
+    private_ip_address            = var.lnx_ipaddress["3"]
+    public_ip_address_id          = azurerm_public_ip.lnx_branch2_pip.id
   }
 }
 
 resource "azurerm_virtual_machine" "lnx_branch2_vm" {
   name                  = "${var.PREFIX}-BRANCH2-LNX-VM"
-  location              = "${azurerm_resource_group.resourcegroup.location}"
-  resource_group_name   = "${azurerm_resource_group.resourcegroup.name}"
-  network_interface_ids = ["${azurerm_network_interface.lnx_branch2_ifc.id}"]
-  vm_size               = "${var.lnx_vmsize}"
+  location              = azurerm_resource_group.resourcegroup.location
+  resource_group_name   = azurerm_resource_group.resourcegroup.name
+  network_interface_ids = [azurerm_network_interface.lnx_branch2_ifc.id]
+  vm_size               = var.lnx_vmsize
 
   storage_image_reference {
     publisher = "Canonical"
@@ -214,9 +210,9 @@ resource "azurerm_virtual_machine" "lnx_branch2_vm" {
 
   os_profile {
     computer_name  = "${var.PREFIX}-BRANCH2-LNX-VM"
-    admin_username = "${var.USERNAME}"
-    admin_password = "${var.PASSWORD}"
-    custom_data    = "${data.template_file.lnx_branch2_custom_data.rendered}"
+    admin_username = var.USERNAME
+    admin_password = var.PASSWORD
+    custom_data    = data.template_file.lnx_branch2_custom_data.rendered
   }
 
   os_profile_linux_config {
@@ -229,15 +225,14 @@ resource "azurerm_virtual_machine" "lnx_branch2_vm" {
 }
 
 data "template_file" "lnx_branch2_custom_data" {
-  template = "${file("${path.module}/customdata-lnx-branch2.tpl")}"
+  template = file("${path.module}/customdata-lnx-branch2.tpl")
 
-  vars = {
-  }
+  vars = {}
 }
 
 data "azurerm_public_ip" "lnx_branch1_pip" {
-  name                = "${azurerm_public_ip.lnx_branch1_pip.name}"
-  resource_group_name = "${azurerm_resource_group.resourcegroup.name}"
+  name                = azurerm_public_ip.lnx_branch1_pip.name
+  resource_group_name = azurerm_resource_group.resourcegroup.name
 }
 
 #output "lnx_branch1_public_ip_address" {
@@ -245,8 +240,8 @@ data "azurerm_public_ip" "lnx_branch1_pip" {
 #}
 
 data "azurerm_public_ip" "lnx_branch2_pip" {
-  name                = "${azurerm_public_ip.lnx_branch2_pip.name}"
-  resource_group_name = "${azurerm_resource_group.resourcegroup.name}"
+  name                = azurerm_public_ip.lnx_branch2_pip.name
+  resource_group_name = azurerm_resource_group.resourcegroup.name
 }
 
 #output "lnx_branch2_public_ip_address" {
