@@ -29,7 +29,6 @@ resource "azurerm_network_interface" "fsa_a_external_ifc" {
   location                  = "${azurerm_resource_group.resourcegroup.location}"
   resource_group_name       = "${azurerm_resource_group.resourcegroup.name}"
   enable_ip_forwarding      = false
-  network_security_group_id = "${azurerm_network_security_group.nsg.id}"
 
   ip_configuration {
     name                                    = "ipconfig1"
@@ -49,12 +48,16 @@ resource "azurerm_network_interface" "fsa_a_external_ifc" {
   }
 }
 
+resource "azurerm_network_interface_security_group_association" "fsa_a_external_ifc_nsg" {
+  network_interface_id      = "${azurerm_network_interface.fsa_a_external_ifc.id}"
+  network_security_group_id = "${azurerm_network_security_group.nsg.id}"
+}
+
 resource "azurerm_network_interface" "fsa_a_internal_ifc" {
   name                      = "${var.PREFIX}-FSA-A-INTERNAL-IFC"
   location                  = "${azurerm_resource_group.resourcegroup.location}"
   resource_group_name       = "${azurerm_resource_group.resourcegroup.name}"
   enable_ip_forwarding      = false
-  network_security_group_id = "${azurerm_network_security_group.nsg.id}"
 
   ip_configuration {
     name                                    = "ipconfig1"
@@ -62,6 +65,11 @@ resource "azurerm_network_interface" "fsa_a_internal_ifc" {
     private_ip_address_allocation           = "static"
     private_ip_address                      = "${var.fsa_ipaddress["3"]}"
   }
+}
+
+resource "azurerm_network_interface_security_group_association" "fsa_a_internal_ifc_nsg" {
+  network_interface_id      = "${azurerm_network_interface.fsa_a_internal_ifc.id}"
+  network_security_group_id = "${azurerm_network_security_group.nsg.id}"
 }
 
 resource "azurerm_virtual_machine" "fsa_a_vm" {
@@ -145,7 +153,6 @@ resource "azurerm_network_interface" "fsa_b_external_ifc" {
   location                  = "${azurerm_resource_group.resourcegroup.location}"
   resource_group_name       = "${azurerm_resource_group.resourcegroup.name}"
   enable_ip_forwarding      = false
-  network_security_group_id = "${azurerm_network_security_group.nsg.id}"
 
   ip_configuration {
     name                                    = "ipconfig1"
@@ -164,12 +171,16 @@ resource "azurerm_network_interface" "fsa_b_external_ifc" {
 #  }
 }
 
+resource "azurerm_network_interface_security_group_association" "fsa_b_external_ifc_nsg" {
+  network_interface_id      = "${azurerm_network_interface.fsa_b_external_ifc.id}"
+  network_security_group_id = "${azurerm_network_security_group.nsg.id}"
+}
+
 resource "azurerm_network_interface" "fsa_b_internal_ifc" {
   name                      = "${var.PREFIX}-FSA-B-INTERNAL-IFC"
   location                  = "${azurerm_resource_group.resourcegroup.location}"
   resource_group_name       = "${azurerm_resource_group.resourcegroup.name}"
   enable_ip_forwarding      = false
-  network_security_group_id = "${azurerm_network_security_group.nsg.id}"
 
   ip_configuration {
     name                                    = "ipconfig1"
@@ -177,6 +188,11 @@ resource "azurerm_network_interface" "fsa_b_internal_ifc" {
     private_ip_address_allocation           = "static"
     private_ip_address                      = "${var.fsa_ipaddress["4"]}"
   }
+}
+
+resource "azurerm_network_interface_security_group_association" "fsa_b_internal_ifc_nsg" {
+  network_interface_id      = "${azurerm_network_interface.fsa_b_internal_ifc.id}"
+  network_security_group_id = "${azurerm_network_security_group.nsg.id}"
 }
 
 resource "azurerm_virtual_machine" "fsa_b_vm" {
