@@ -251,17 +251,17 @@ resource "azurerm_virtual_machine" "fsa_b_vm" {
   }
 }
 
-data "azurerm_public_ip" "fsa_a_pip" {
-  name                = "${azurerm_public_ip.fsa_a_pip.name}"
-  resource_group_name = "${azurerm_resource_group.resourcegroup.name}"
-}
+#data "azurerm_public_ip" "fsa_a_pip" {
+#  name                = "${azurerm_public_ip.fsa_a_pip.name}"
+#  resource_group_name = "${azurerm_resource_group.resourcegroup.name}"
+#}
 
-data "azurerm_public_ip" "fsa_b_pip" {
-  name                = "${azurerm_public_ip.fsa_b_pip.name}"
-  resource_group_name = "${azurerm_resource_group.resourcegroup.name}"
-}
+#data "azurerm_public_ip" "fsa_b_pip" {
+#  name                = "${azurerm_public_ip.fsa_b_pip.name}"
+#  resource_group_name = "${azurerm_resource_group.resourcegroup.name}"
+#}
 
-data "azurerm_public_ip" "fsa_shared_pip" {
-  name                = "${azurerm_public_ip.fsa_shared_pip.name}"
-  resource_group_name = "${azurerm_resource_group.resourcegroup.name}"
-}
+#data "azurerm_public_ip" "fsa_shared_pip" {
+#  name                = "${azurerm_public_ip.fsa_shared_pip.name}"
+#  resource_group_name = "${azurerm_resource_group.resourcegroup.name}"
+#}
