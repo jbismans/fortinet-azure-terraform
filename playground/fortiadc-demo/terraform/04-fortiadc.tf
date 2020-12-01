@@ -303,18 +303,18 @@ resource "azurerm_virtual_machine" "fad_b_vm" {
   tags = {}
 }
 
-data "azurerm_public_ip" "fad_floating_pip" {
-  name                = azurerm_public_ip.fad_floating_pip.name
-  resource_group_name = azurerm_resource_group.resourcegroup.name
-}
+#data "azurerm_public_ip" "fad_floating_pip" {
+#  name                = azurerm_public_ip.fad_floating_pip.name
+#  resource_group_name = azurerm_resource_group.resourcegroup.name
+#}
 
-data "azurerm_public_ip" "fad_a_pip" {
-  name                = azurerm_public_ip.fad_a_pip.name
-  resource_group_name = azurerm_resource_group.resourcegroup.name
-}
+#data "azurerm_public_ip" "fad_a_pip" {
+#  name                = azurerm_public_ip.fad_a_pip.name
+#  resource_group_name = azurerm_resource_group.resourcegroup.name
+#}
 
-data "azurerm_public_ip" "fad_b_pip" {
-  name                = azurerm_public_ip.fad_b_pip.name
-  resource_group_name = azurerm_resource_group.resourcegroup.name
-}
+#data "azurerm_public_ip" "fad_b_pip" {
+#  name                = azurerm_public_ip.fad_b_pip.name
+#  resource_group_name = azurerm_resource_group.resourcegroup.name
+#}
 

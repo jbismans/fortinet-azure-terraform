@@ -172,13 +172,13 @@ data "template_file" "lnx_b_custom_data" {
   vars = {}
 }
 
-data "azurerm_public_ip" "lnx_a_pip" {
-  name                = azurerm_public_ip.lnx_a_pip.name
-  resource_group_name = azurerm_resource_group.resourcegroup.name
-}
+#data "azurerm_public_ip" "lnx_a_pip" {
+#  name                = azurerm_public_ip.lnx_a_pip.name
+#  resource_group_name = azurerm_resource_group.resourcegroup.name
+#}
 
-data "azurerm_public_ip" "lnx_b_pip" {
-  name                = azurerm_public_ip.lnx_b_pip.name
-  resource_group_name = azurerm_resource_group.resourcegroup.name
-}
+#data "azurerm_public_ip" "lnx_b_pip" {
+#  name                = azurerm_public_ip.lnx_b_pip.name
+#  resource_group_name = azurerm_resource_group.resourcegroup.name
+#}
 
