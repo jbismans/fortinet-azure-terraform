@@ -25,6 +25,13 @@ resource "azurerm_subnet" "subnet_internal" {
   address_prefixes     = [var.subnet["2"]]
 }
 
+resource "azurerm_subnet" "subnet_hasync" {
+  name                 = "${var.PREFIX}-FAD-HASYNC-SUBNET"
+  resource_group_name  = azurerm_resource_group.resourcegroup.name
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes     = [var.subnet["5"]]
+}
+
 resource "azurerm_subnet" "subnet_protected_a" {
   name                 = "${var.PREFIX}-FAD-PROTECTED-A-SUBNET"
   resource_group_name  = azurerm_resource_group.resourcegroup.name

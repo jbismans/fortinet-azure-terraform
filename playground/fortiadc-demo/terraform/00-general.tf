@@ -75,6 +75,7 @@ variable "subnet" {
     "2" = "10.150.1.0/24"  # Internal
     "3" = "10.150.10.0/24" # Protected a
     "4" = "10.150.11.0/24" # Protected b
+    "5" = "10.150.2.0/24"  # HASync
   }
 }
 
@@ -87,6 +88,7 @@ variable "subnetmask" {
     "2" = "24" # Internal
     "3" = "24" # Protected a
     "4" = "24" # Protected b
+    "5" = "24" # HASync
   }
 }
 
@@ -98,6 +100,7 @@ variable "fad_ipaddress_a" {
     "1" = "10.150.0.4" # External
     "2" = "10.150.1.4" # Internal
     "3" = "10.150.0.6" # Floating
+    "4" = "10.150.2.4" # HASync
   }
 }
 
@@ -108,6 +111,8 @@ variable "fad_ipaddress_b" {
   default = {
     "1" = "10.150.0.5" # External
     "2" = "10.150.1.5" # Internal
+    "3" = "10.150.2.5" # HASync
+    "4" = "10.150.0.7" # Floating2
   }
 }
 

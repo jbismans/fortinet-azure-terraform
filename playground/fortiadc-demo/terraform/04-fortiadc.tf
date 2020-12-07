@@ -54,6 +54,15 @@ resource "azurerm_public_ip" "fad_floating_pip" {
   domain_name_label   = format("%s-%s", lower(var.PREFIX), "fad-floating-pip")
 }
 
+resource "azurerm_public_ip" "fad_floating_pip2" {
+  name                = "${var.PREFIX}-FAD-FLOATING-PIP2"
+  location            = var.LOCATION
+  resource_group_name = azurerm_resource_group.resourcegroup.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+  domain_name_label   = format("%s-%s", lower(var.PREFIX), "fad-floating-pip2")
+}
+
 resource "azurerm_public_ip" "fad_a_pip" {
   name                = "${var.PREFIX}-FAD-A-PIP"
   location            = var.LOCATION
@@ -132,11 +141,30 @@ resource "azurerm_network_interface_security_group_association" "fad_a_ifc_int_n
   network_security_group_id = azurerm_network_security_group.fad_nsg.id
 }
 
+resource "azurerm_network_interface" "fad_a_ifc_hasync" {
+  name                 = "${var.PREFIX}-FAD-A-IFC-HASYNC"
+  location             = azurerm_resource_group.resourcegroup.location
+  resource_group_name  = azurerm_resource_group.resourcegroup.name
+  enable_ip_forwarding = true
+
+  ip_configuration {
+    name                          = "ipconfig1"
+    subnet_id                     = azurerm_subnet.subnet_hasync.id
+    private_ip_address_allocation = "static"
+    private_ip_address            = var.fad_ipaddress_a["4"]
+  }
+}
+
+resource "azurerm_network_interface_security_group_association" "fad_a_ifc_hasync_nsg" {
+  network_interface_id      = azurerm_network_interface.fad_a_ifc_hasync.id
+  network_security_group_id = azurerm_network_security_group.fad_nsg.id
+}
+
 resource "azurerm_virtual_machine" "fad_a_vm" {
   name                         = "${var.PREFIX}-FAD-A-VM"
   location                     = azurerm_resource_group.resourcegroup.location
   resource_group_name          = azurerm_resource_group.resourcegroup.name
-  network_interface_ids        = [azurerm_network_interface.fad_a_ifc_ext.id, azurerm_network_interface.fad_a_ifc_int.id]
+  network_interface_ids        = [azurerm_network_interface.fad_a_ifc_ext.id, azurerm_network_interface.fad_a_ifc_int.id, azurerm_network_interface.fad_a_ifc_hasync.id]
   primary_network_interface_id = azurerm_network_interface.fad_a_ifc_ext.id
   vm_size                      = var.fad_vmsize
   availability_set_id          = azurerm_availability_set.fad_hub_avset.id
@@ -213,6 +241,14 @@ resource "azurerm_network_interface" "fad_b_ifc_ext" {
     private_ip_address            = var.fad_ipaddress_b["1"]
     public_ip_address_id          = azurerm_public_ip.fad_b_pip.id
   }
+
+  ip_configuration {
+    name                          = "ipconfig3"
+    subnet_id                     = azurerm_subnet.subnet_external.id
+    private_ip_address_allocation = "static"
+    private_ip_address            = var.fad_ipaddress_b["4"]
+    public_ip_address_id          = azurerm_public_ip.fad_floating_pip2.id
+  }
 }
 
 resource "azurerm_network_interface_security_group_association" "fad_b_ifc_ext_nsg" {
@@ -239,11 +275,30 @@ resource "azurerm_network_interface_security_group_association" "fad_b_ifc_int_n
   network_security_group_id = azurerm_network_security_group.fad_nsg.id
 }
 
+resource "azurerm_network_interface" "fad_b_ifc_hasync" {
+  name                 = "${var.PREFIX}-FAD-B-IFC-HASYNC"
+  location             = azurerm_resource_group.resourcegroup.location
+  resource_group_name  = azurerm_resource_group.resourcegroup.name
+  enable_ip_forwarding = true
+
+  ip_configuration {
+    name                          = "ipconfig1"
+    subnet_id                     = azurerm_subnet.subnet_hasync.id
+    private_ip_address_allocation = "static"
+    private_ip_address            = var.fad_ipaddress_b["3"]
+  }
+}
+
+resource "azurerm_network_interface_security_group_association" "fad_b_ifc_hasync_nsg" {
+  network_interface_id      = azurerm_network_interface.fad_b_ifc_hasync.id
+  network_security_group_id = azurerm_network_security_group.fad_nsg.id
+}
+
 resource "azurerm_virtual_machine" "fad_b_vm" {
   name                         = "${var.PREFIX}-FAD-B-VM"
   location                     = azurerm_resource_group.resourcegroup.location
   resource_group_name          = azurerm_resource_group.resourcegroup.name
-  network_interface_ids        = [azurerm_network_interface.fad_b_ifc_ext.id, azurerm_network_interface.fad_b_ifc_int.id]
+  network_interface_ids        = [azurerm_network_interface.fad_b_ifc_ext.id, azurerm_network_interface.fad_b_ifc_int.id, azurerm_network_interface.fad_b_ifc_hasync.id]
   primary_network_interface_id = azurerm_network_interface.fad_b_ifc_ext.id
   vm_size                      = var.fad_vmsize
   availability_set_id          = azurerm_availability_set.fad_hub_avset.id
